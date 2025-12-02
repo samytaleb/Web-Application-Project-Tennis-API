@@ -1,0 +1,19 @@
+[
+    {
+      "id": "court-md-1",
+      "name": "Baltimore Tennis Center",
+      "city": "Baltimore",
+      "imageUrl": "",
+      "surface": "hard",
+      "indoor": false,
+      "latitude": 39.2904,
+      "longitude": -76.6122,
+      "summary": "Complexe de tennis à Baltimore.",
+      "favorite": false,
+      "details": {
+        "courts": 8,
+        "lights": true
+      }
+    }
+  ]
+  
