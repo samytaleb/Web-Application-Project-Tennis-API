@@ -1,11 +1,5 @@
 # Tennis API – Projet NestJS
 
-## Contexte
-Ce projet a été réalisé dans le cadre d’un TP de développement backend avec **NestJS**.  
-L’objectif est de construire une API REST simple permettant de gérer des **terrains de tennis** (`courts`) tout en intégrant une **API publique externe** (TheSportsDB) pour enrichir les données.  
-
----
-
 ## Fonctionnalités
 
 ### Gestion locale des courts (CRUD)
