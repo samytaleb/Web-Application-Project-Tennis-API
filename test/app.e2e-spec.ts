@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { TennisService } from '../src/tennis/tennis.service';
 
@@ -43,8 +43,8 @@ describe('App E2E', () => {
     expect(res.body).toHaveProperty('id', 'court-md-1');
   });
 
-  it('/courts/search (GET)', async () => {
-    const res = await request(app.getHttpServer()).get('/courts/search?q=baltimore').expect(200);
+  it('/courts?q=baltimore (GET)', async () => {
+    const res = await request(app.getHttpServer()).get('/courts?q=baltimore').expect(200);
     expect(res.body.length).toBeGreaterThanOrEqual(1);
   });
 
