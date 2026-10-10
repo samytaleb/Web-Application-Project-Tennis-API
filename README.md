@@ -1,4 +1,4 @@
-# Tennis API – Projet Étudiant (NestJS)
+# Tennis API – Projet NestJS
 
 ## Contexte
 Ce projet a été réalisé dans le cadre d’un TP de développement backend avec **NestJS**.  
