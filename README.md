@@ -1,90 +1,79 @@
-# Tennis API – Projet NestJS
+# Tennis REST API — NestJS
 
-## Fonctionnalités
+A modular **TypeScript / NestJS** backend combining local tennis-court management with live sports information retrieved from **TheSportsDB**.
 
-### Gestion locale des courts (CRUD)
-- `GET /courts` → liste tous les courts.
-- `GET /courts/:id` → récupère un court par son identifiant.
-- `POST /courts` → ajoute un nouveau court (selon DTO).
-- `PUT /courts/:id` → met à jour le favori d’un court.
-- `PATCH /courts/:id/favorite` → met à jour uniquement le champ favori.
-- `DELETE /courts/:id` → supprime un court.
+## Features
 
-Les données locales sont stockées dans un fichier **JSON maison** au lancement.
+- Read, search, create and update tennis courts stored in a local JSON file.
+- Search players and events via a third-party REST API.
+- Look up a player by ID, list tennis leagues and retrieve upcoming or past league events.
+- DTOs with NestJS validation and a test suite using Jest.
 
-### Intégration API externe – TheSportsDB
-- `GET /tennis/player?name=<nom>` → recherche un joueur de tennis via l’API publique.  
-  Exemple : `/tennis/player?name=Federer`
-- `GET /tennis/event?name=<event>` → recherche un évènement (tournoi, match, …).  
-  Exemple : `/tennis/event?name=Wimbledon`
+## Architecture
 
-L’API externe utilisée est **TheSportsDB (free key: 123)**.
+```text
+src/
+├── courts/
+│   ├── courts.controller.ts
+│   ├── courts.service.ts
+│   ├── dto/
+│   └── entities/
+├── tennis/
+│   ├── tennis.controller.ts
+│   └── tennis.service.ts
+├── app.module.ts
+└── main.ts
+data/courts.json
+test/app.e2e-spec.ts
+```
 
-## Exemples de requêtes
+The application calls TheSportsDB from `src/tennis/tennis.service.ts`. The current implementation uses the service's publicly documented demo key in its URL; external rate limits or API changes may affect results.
 
-### Avec navigateur
-- [http://localhost:3000/courts](http://localhost:3000/courts)  
-- [http://localhost:3000/courts/court-md-1](http://localhost:3000/courts/court-md-1)  
-- [http://localhost:3000/tennis/player?name=Nadal](http://localhost:3000/tennis/player?name=Nadal)
+## Install and run
 
----
+Requires **Node.js 20+** and npm.
 
-# Description  
-Dépôt de démarrage TypeScript pour le framework **NestJS**.  
+```bash
+npm ci
+npm run start:dev
+```
 
-## Installation du projet  
-$ npm install
+The API listens on `http://localhost:3000` by default; set the `PORT` environment variable to change it.
 
-## Compilation et exécution du projet  
-### Mode développement  
-$ npm run start
+## Implemented endpoints
 
-### Mode watch (redémarrage automatique)  
-$ npm run start:dev
+| Method | Route | Purpose |
+| --- | --- | --- |
+| GET | `/courts` | List courts; optional `?q=` search |
+| GET | `/courts/:id` | Retrieve a court |
+| POST | `/courts` | Create a court from a validated DTO |
+| PUT | `/courts/:id` | Update favorite status |
+| GET | `/tennis/player?name=Nadal` | Search for a player |
+| GET | `/tennis/player/:id` | Look up a player |
+| GET | `/tennis/event?title=Wimbledon` | Search for events |
+| GET | `/tennis/leagues` | List tennis leagues; optional `?country=` |
+| GET | `/tennis/events/next?leagueId=4464` | Upcoming events for a league |
+| GET | `/tennis/events/past?leagueId=4464` | Past events for a league |
 
-### Mode production  
-$ npm run start:prod
+Endpoints not listed above have **not** been implemented. External API calls require an internet connection.
 
-## Lancer les tests  
-### Tests unitaires  
-$ npm run test
+### Example
 
-### Tests end-to-end (e2e)  
-$ npm run test:e2e
+```bash
+curl "http://localhost:3000/tennis/player?name=Nadal"
+curl "http://localhost:3000/courts"
+```
 
-### Couverture des tests  
-$ npm run test:cov
+## Quality checks
 
-## Déploiement  
-Lorsque vous êtes prêt à déployer votre application **NestJS** en production, vous pouvez suivre les étapes officielles pour garantir une exécution optimale.  
+```bash
+npm run build
+npm test -- --runInBand
+npm run test:e2e -- --runInBand
+```
 
-Si vous recherchez une plateforme cloud pour déployer votre application, vous pouvez utiliser **Mau**, la plateforme officielle de NestJS pour un déploiement rapide sur AWS.  
+The repository includes controller/service tests and an end-to-end test file. The project is a learning/demo application; it is not a production-grade sports information service.
 
-Installation et déploiement avec Mau :  
-$ npm install -g @nestjs/mau
-$ mau deploy
+## License and attribution
 
-Avec Mau, vous pouvez déployer votre application en quelques clics et vous concentrer sur le développement des fonctionnalités plutôt que sur l’infrastructure.  
-
-## Ressources  
-Voici quelques ressources utiles pour travailler avec NestJS :  
-- Documentation officielle : https://docs.nestjs.com/  
-- Communauté et support via le Discord officiel  
-- Cours et tutoriels vidéo officiels  
-- Déploiement facile avec NestJS Mau  
-- Visualisation et interactions temps réel avec NestJS Devtools  
-- Support entreprise officiel  
-- Suivez les mises à jour sur X (Twitter) et LinkedIn  
-- Jobs board officiel pour offres et recherches d’emplois  
-
-## Support  
-NestJS est un projet open-source sous licence MIT.  
-Il se développe grâce aux sponsors et à la communauté des contributeurs.  
-
-## Auteur  
-- **Kamil Myśliwiec**  
-- Site web : https://nestjs.com  
-- Twitter : @nestframework  
-
-## Licence  
-NestJS est publié sous licence **MIT**.  
+Built with the [NestJS framework](https://nestjs.com/) and integrating [TheSportsDB](https://www.thesportsdb.com/). The NestJS framework's license is **not** a license grant for this entire repository. This project does not currently publish its own open-source license; seek the owner's permission before redistributing its source.
